@@ -351,7 +351,7 @@
 \usepackage[pdftex]{graphicx}
 \usepackage{caption}
 \usepackage{textcomp}
-\usepackage[labelfont=up,labelsep=newline, skip=1ex]{caption}
+\usepackage[labelfont=up,labelsep=newline, font=scriptsize, skip=1ex]{caption}
 %\graphicspath{ {./Figures/} }
 \begin{document}
 %
@@ -630,6 +630,28 @@ the following.
     \item An extensive performance study is conducted to demonstrate the accuracy and effectiveness of the regression approach for both music emotion recognition and music emotion variation detection (Section V).
     \item A group-wise MER scheme is proposed to solve the subjectivity issue of MER (Section VI).
 \end{itemize}
+%\hfill mds
+%\hfill August 26, 2015
+\section{RELATED WORKS}
+Despite a great deal of effort that has been made for MER in
+recent years [1]–[8], little attention has been paid to view the
+emotion plane from a continuous perspective. Some exceptions
+can be found in the music emotion variation detection (MEVD)
+field [8]–[11], where the emotion content of music is quantified as a time-varying continuous variable, and some statistical
+methods are developed to predict the emotion variation. How-
+ever, detecting the emotion variation is different from representing each song individually as a point in the emotion plane.
+Our work represents one of the first attempts pioneering this
+novel perspective. See Table I for a comparison.
+
+In the following, we give brief review of existing AV computation methods and illuminate the rational of adopting the regression approach rather than these methods.
+
+\subsection{Arousal and Valence Modeling (AV Modeling)}
+To detect the emotion variation in video sequences, AV modeling is proposed in [9] to compute the AV values. The arousal and valence models are weighted combinations of some component functions that are computed along the timeline. The resulting arousal and valence curves are combined to form an effective curve, making it easy to trace the emotion variation of video content and to identify the segments with high emotional
+content. The component functions used for arousal are the motion vectors between consecutive video frames, the changes in shot lengths, and the energy of sound. Valence is modeled by the pitch of sound.
+
+Although AV modeling is based on some psychological understandings and the adopted features are intuitively related to emotion perception, it is difficult to evaluate the performance quantitatively due to lack of theoretical foundation. A rigorous approach that allows performance study is more favorable. Furthermore, unlike video, there are fewer salient music features that have strong link to emotion perception.
+\subsection{Fuzzy Approach}
+In [8], emotion classes are divided into four quadrants in the emotion plane (see Fig. 1), and each input sample is assigned a fuzzy vector indicating the relative strength of each class by fuzzy classifiers [24], [25]. For example, a fuzzy vector of four emotion classes is expressed as
 %\hfill mds
  
 %\hfill August 26, 2015
