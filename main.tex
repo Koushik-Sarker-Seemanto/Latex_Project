@@ -651,10 +651,55 @@ content. The component functions used for arousal are the motion vectors between
 
 Although AV modeling is based on some psychological understandings and the adopted features are intuitively related to emotion perception, it is difficult to evaluate the performance quantitatively due to lack of theoretical foundation. A rigorous approach that allows performance study is more favorable. Furthermore, unlike video, there are fewer salient music features that have strong link to emotion perception.
 \subsection{Fuzzy Approach}
+\begin{table}[ht]
+    \centering
+        \caption{COMPARISON OF THE EXISTING METHODS FOR AV COMPUTATION}
+        \label{table2}
+    \begin{tabular}{ccccc}
+    \hline
+    Name                & Field & Accuracy                                                        & \begin{tabular}[c]{@{}c@{}}Temporal\\ information\end{tabular} & \begin{tabular}[c]{@{}c@{}}Geometric\\ operation\end{tabular} \\ \hline
+    AV modeling {[}9{]} & Video & N/A                                                             & No need                                                        & No need                                                       \\ \hline
+    Fuzzy{[}8{]}        & Music & N/A                                                             & No need                                                        & Need                                                          \\ \hline
+    System ID {[}10{]}  & Music & \begin{tabular}[c]{@{}c@{}}78.4\% (a)\\ 21.9\% (v)\end{tabular} & Need                                                           & No need                                                       \\ \hline
+    \end{tabular}
+\end{table}
 In [8], emotion classes are divided into four quadrants in the emotion plane (see Fig. 1), and each input sample is assigned a fuzzy vector indicating the relative strength of each class by fuzzy classifiers [24], [25]. For example, a fuzzy vector of four emotion classes is expressed as
-%\hfill mds
- 
-%\hfill August 26, 2015
+\begin{equation}
+\mu =  \left\{ \mu_1,\mu_2,\mu_3,\mu_4 \right\},    \sum_{i=1}^4\mu_i=1 
+\end{equation}
+where $\mu_i\geq 0$ is the relative strength of class $i$. The final decision
+of classification is the class with the maximal strength.
+
+Given a fuzzy vector, the fuzzy approach exploits the geometric relationship of the four emotion classes and computes the AV values by the following transformation:
+\begin{equation}
+    a = \mu_1+\mu_2-\mu_3-\mu4
+\end{equation}
+\begin{equation}
+    v = \mu_1+\mu_4-\mu_2-\mu3
+\end{equation}
+where $a$ denotes arousal and $v$ denotes valence. However, the transformation involves emotion classes that are not necessarily independent of, and orthogonal to, each other. Since the geometric relationship between arousal and valence is inexact, it is improper to perform arithmetic operations on the AV values. Besides, similar to AV modeling, the fuzzy approach is short of a quantitative performance evaluation mechanism for lack of ground truth.
+\vspace{-1em}
+\subsection{System Identification Approach (System ID)}
+A systematic approach for MEVD is proposed in [10],
+where the system identification technique is utilized to model
+the music emotion as a function of 18 musical features. The
+ground truth data are collected every second, so the music
+selections are also segmented every second before feature
+extraction is performed. Six western classical music selections
+of various moods form the dataset. Results demonstrate that
+system identification provides a means to the generalization of
+the emotional content for a genre of music (western classical music), and the reported average $R^2$ statistics [17] is 78.4\% for arousal and 21.9\% for valence.
+
+However, the system ID approach, as well as the time series
+analysis approach proposed earlier by Schubert [11], computes
+the AV values by exploiting the temporal relationship between
+music segments, which is absent for MER.
+
+A comparison of the reviewed methods in terms of the ability
+to compute the AV values is summarized in Table II. To sum up,
+a robust AV computation algorithm should have a sound theoretical foundation and allows quantitative performance study.
+Among the reviewed methods, only the system ID approach embeds a theoretical structure, yet it utilizes the temporal information which is not available for MER. In addition, the computation of AV values should be made without applying any geometric operation between arousal and valence due to their inexact relationship. It is also favorable to have the computation algorithm directly predict real values (i.e., arousal or valence)
+from extracted features.
 
 \subsection{Subsection Heading Here}
 Subsection text here.
