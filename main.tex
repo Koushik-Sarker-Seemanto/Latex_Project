@@ -711,6 +711,7 @@ a robust AV computation algorithm should have a sound theoretical foundation and
 Among the reviewed methods, only the system ID approach embeds a theoretical structure, yet it utilizes the temporal information which is not available for MER. In addition, the computation of AV values should be made without applying any geometric operation between arousal and valence due to their inexact relationship. It is also favorable to have the computation algorithm directly predict real values (i.e., arousal or valence)
 from extracted features.
 
+
 \section{REGRESSION APPROACH}
 Regression theory is a well-studied theory aiming at predicting a real value from observed variables (or features). It
 has a sound theoretical foundation, allows easy performance
@@ -865,8 +866,301 @@ Associated with the AV values, each music sample is visualized as a point in the
 
 \section{PERFORMANCE STUDY}
 We run a series of experiments to evaluate the performance of the regression approach. Different ground truth data spaces, feature spaces, and regression algorithms are compared in terms
+\begin{figure}[h]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.48\textwidth, height=0.18\textwidth]{fig3.png}
+\caption{(a) Histogram of standard deviations for arousal and valence of 195
+songs in the first course of subjective test. (b) Histogram of absolute difference
+for arousal and valence of 220 data pairs in the test–retest reliability study.}
+\label{fig3}
+\end{figure}
+of the \(R^2\) statistics, which is a standard way for measuring the
+goodness of fit for regression models [17]
+\begin{equation}
+R^2 = 1 - \frac{N \varepsilon}{ \sum_{i=1}^N (y_i - \overline{y})^2}
+\end{equation}
+where \(\overline{y}\) is the mean of the ground truth, and the normalization of the total squared error \((N \varepsilon)\) by the energy of the ground truth makes \(R^2\) comparable between experiments. \(R^2\) is often interpreted as the proportion of underlying data variation that is explained by the fitted regression model [32]. An \(R^2\) of 1.0 means the model perfectly fits the data, while a negative \(R^2\) means the model is even worse than simply taking the sample mean. However, the kind of the \(R^2\) statistics that is satisfactory is case-dependent.
 
-% An example of a floating figure using the graphicx package.
+We evaluate the performance of regression by the tenfold cross validation technique [16], in which the whole dataset is randomly divided into ten parts, nine of them for training and the remaining one for testing. The above process is repeated 20 times before we compute the average result. \(R^2\) for each data dimension (say, arousal, and valence) is computed separately.
+
+\subsection{Consistency Evaluation of the Ground Truth}
+We evaluate the consistency of the ground truth in two ways. First, the consistency of annotations given by different subjects for the same song is evaluated by the standard deviation of annotations. Since the ground truth is obtained by averaging subjects’ annotations, the larger the standard deviation is, the less representative the ground truth can be.
+
+Fig. 3(a) shows the histogram of standard deviations for arousal and valence in the first course of the subjective test. We can see that most standard deviations of music samples are about 0.3, which give rise to a 95\% confidence interval [32] of roughly \(\pm{0.2}\) (sample size is ten since each music sample is labeled by more than ten subjects). On a range of \(-1.0\) to 1.0, a range of 0.4 is not that big, yet it reflects the subjectivity issue
+mentioned in Section I.
+
+Second, we evaluate whether the annotations given by the same subject are similar after a span of time by conducting a test-retest reliability study [33] and computing the absolute difference between corresponding annotations for the same song. The larger the absolute difference is, the less repeatable the subjective test could be. We conduct a second course of subjective test two months after the first one, and invite 22 subjects to label the music samples they labeled in the first course again.
+
+Fig. 3(b) shows the histogram of absolute difference for arousal and valence of 220 (22 \(\times\) 10) data pairs in the test-retest stability study. We can see that more than one half of the absolute differences fall below 0.1, showing the annotations given by the same person are quite similar.
+
+In summary, while Fig. 3(b) shows that the subjective test by the same person is repeatable, Fig. 3(a) shows a certain degree of inconsistency in the ground truth data. The inconsistency is reasonable because music perception is subjective in nature. However, it should be noted that the consistency can be improved if we personalize the MER system, or, in a similar sense, reduce the individual differences of the subjects by grouping them according to individual factors. See Section VI for more discussions.
+
+Using the absolute difference of test-retest reliability, we can compute an upper bound of \(R^2\) for the regression approach: 80.5\% for arousal and 58.6\% for valence. This approximated upper bound defines both the viability of the regression approach and the kind of \(R^2\) that is reasonable for the regression approach. The low upper bound for valence is not surprising since, as [11] and many previous works on MER have pointed out, generally arousal is much easier to model than valence. There are two main reasons, which are actually related to each other, for this phenomenon. First, while there are a number of features relevant to arousal such as loudness (loud/soft), tempo (fast/slow), and pitch (high/low), there are few salient features for valence. Second, the perception of valence is more subjective than that of arousal; there is a good chance that people perceive opposite valence for the same song.
+
+\subsection{Data Space}
+As mentioned in Section I, a major issue of the continuous
+perspective is the dependency between the two dimensions
+arousal \((a)\) and valence \((v)\) in the arousal-valence (denoted as
+AV) data space. The Pearson’s linear correlation coefficient
+between and in our dataset can reach 0.3368; therefore, it is
+interesting to see whether the performance of regression can be
+improved by reducing the data correlation first.
+
+A common method for reducing the correlation between variables is the principal component analysis (PCA)[16], which entails the computation of a loading matrix \(L\) to transform original data \(Y\) to principal components \(U\) such that
+\begin{equation}
+    U = L(Y - mean(Y))
+\end{equation}
+\begin{equation}
+    Y=L^{-1}U + mean(Y)
+\end{equation}
+where \(U\) is the representation of \(Y\) in the principal component
+space. By PCA, we are able to transform the original data space
+AV to the principal component space (denoted as PC) where the
+correlation between the two resulting dimensions is reduced to
+nearly zero. Therefore, besides training \(R_V\) and \(R_A\), we train
+another two regressors \(R_p\) and \(R_q\) in the PC space (where \(p\)
+and \(q\) denote the two dimensions of PC), and then transform the
+data space of the prediction results back to AV by (7). Though \(R_p\)
+and \(R_q\) are also trained independently as \(R_V\) and \(R_A\), the
+underlying dimensions \(p\) and \(q\) are nearly uncorrelated.
+
+\vspace{1cm}
+\bgroup
+\def\arraystretch{1.3}
+\begin{table}[ht]
+    \centering
+        \caption{FEATURE SPACES USED IN THE PERFORMANCE STUDY}
+        \label{table3}
+    
+    \begin{tabular}{lll}
+\hline
+\multicolumn{1}{c}{Name} & \multicolumn{1}{c}{Dimension}                                  & \multicolumn{1}{c}{Description}                                                                                          \\ \hline
+ALL                      & 114 / 114                                                      & Use the feature s in Table III.                                                                                          \\ \hline
+Psy15                    & 15 / 15                                                        & Use the features in Table IV.                                                                                            \\ \hline
+RRF$_{m,n}$                      & \begin{tabular}[c]{@{}l@{}}AV: 8 / 3\\ PC: 18 /15\end{tabular} & \begin{tabular}[c]{@{}l@{}}Features selected from ALL by RReliefF,\\ the dimension is selected to minimize \(\varepsilon\).\end{tabular} \\ \hline
+\end{tabular}
+    
+\end{table}
+\egroup
+
+\subsection{Feature Space}
+From the machine learning point of view, features are not necessarily of equal importance or quality, and irrelevant or redundant features may lead to inaccurate conclusion. Although domain knowledge helps identify good features, there is only limited understanding of how music evokes emotion. One solution for addressing this problem is to extract a number of musical features and then use a feature selection algorithm (FSA) to identify good features [23].
+
+The purpose of FSA is to find the optimal feature subset that gives the maximal prediction accuracy and keeps the feature dimension minimal. For its simplicity and effectiveness, RReliefF [22] is adopted in our work. It evaluates the features one by one and assigns a real number to each feature to indicate its importance. Because RReliefF takes feature interrelationship into account, it is better than other statistical measures such as correlation coefficient, information gain, and signal to noise ratio [22].
+
+We run RReliefF for each data space and rank the features
+by importance. Then we run SVR with the top-$m$ and top-$n$ selected features for the two dimensions in each data space to
+decide the best combination of $m$ and $n$ that lead to minimal $\varepsilon$. The top-$m$ and top-$n$ selected features form the third feature space RRF$_{m,n}$ . The best feature dimensions $m$ and $n$ of
+RRF, along with the adopted feature spaces, are summarized in
+Table V. We show the comparison of using different feature dimensions for AV and PC in Fig. 4, and list the top five RRF features for AV in Table VI. From Table VI, we can see that the top
+features for arousal are related to spectral shape and pitch, and
+the top features for valence are more related to rhythmic (beat
+and tempo) and pitch properties of sound. Note for valence, the
+combination of the first three features gives rise to the minimal
+mean squared error. Among them, spectral dissonance (computed using Sethares’ algorithm [27]) is related to the noisiness
+of the spectrum, tonality is related to pitch, whereas the overall
+sum of beat histogram is related to tempo. It is also observed
+that energy-related features are not much relevant to arousal, a
+phenomenon that may result from the normalization of sound
+volume.
+
+\subsection{Performance Evaluation of Regressor}
+We first evaluate the prediction accuracy of different regression algorithms in terms of . The implementation of SVR is based on the library LIBSVM [19], along with a grid parameter search to find the best parameters. BoostR is implemented in Java language. The threshold for demarcating correct and incorrect predictions are empirically determined as 0.1, and the
+number of iterations is 30. MLR can be easily implemented in
+Matlab.
+
+We run each of the regressor with the same configuration:
+the data space is AV and the feature space is Psy15.
+
+\begin{figure}[h]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.48\textwidth, height=0.40\textwidth]{fig4.png}
+\caption{Comparison of the root mean squared error using different feature dimensions for AV and PC. The features are the top ones selected by RReliefF.}
+\label{fig3}
+\end{figure}
+\vspace{.5cm}
+
+
+\bgroup
+\def\arraystretch{1.4}
+\begin{table}[ht]
+    \centering
+        \caption{TOP FIVE SELECTED FEATURES BY RRELIEFF FOR AV AND PC DATA SPACES}
+        \label{table6}
+    
+    \begin{tabular}{ccc|ccc}
+    \hline
+\multicolumn{3}{c}{Arousal}       & \multicolumn{3}{c}{Valance}          \\ \hline
+Name         & Extractor & weight & Name             & Extractor & weight \\ \hline
+stdFlux      & M         & 0.0123 & spectral diss(S) & P*        & 0.0223 \\
+tonality     & P*        & 0.0115 & tonality         & P*        & 0.0210 \\
+multiplicity & P*        & 0.0095 & sum of bit hist  & M         & 0.0167 \\
+meanFlux     & M         & 0.0093 & chord            & P*        & 0.0129 \\
+meanRolloff  & M         & 0.0092 & sum of pitch     & M         & 0.0108\\ \hline \hline
+ \multicolumn{6}{r}{*Psy15 features.}
+\end{tabular}
+\end{table}
+\vspace{.5cm}
+
+\begin{table}[ht]
+    \centering
+        \caption{$R^2$ STATISTICS FOR DIFFERENT COMBINATION OF DIFFERENT METHODS,
+DATA SPACES, AND FEATURE SPACES}
+        \label{table7}
+    
+    \begin{tabular}{ccccc}
+    \hline
+Method      & Data space & feature space & \multicolumn{2}{c}{\begin{tabular}[c]{@{}c@{}}$R^2$ statistics\\ a           v\end{tabular}} \\ \hline
+MLR         & AV         & Psy15         & 56.8\%                                   & 10.9\%                                  \\
+BoostR      & AV         & Psy15         & 55.3\%                                   & 11.7\%                                  \\
+SVR         & AV         & Psy15         & 57.0\%                                   & 22.2\%                                  \\
+SVR         & PC         & RRF$_{18,15}$           & 58.3\%                                   & 28.1\%                                  \\
+Test-retest$^1$ & N/A        & N/A           & 80.5\%                                   & 58.6\%                                \\        \hline \hline
+\multicolumn{5}{r}{$^1$The upper bound estimated in section V.$A$.}
+
+\end{tabular}
+\end{table}
+\egroup
+Results
+shown in the first three rows of Table VII indicates that the $R$ of SVR reaches 57.0\% for arousal and 22.2\% for valence, representing the most prominent prediction accuracy among the three, and BoostR exhibits prediction accuracy similar to the baseline method MLR. Consequently, we employ SVR as the regressor in the following experiments.
+
+
+
+\bgroup
+\def\arraystretch{1}
+\begin{table}[ht]
+    \centering
+        \caption{$R^2$ STATISTICS OF SVR WITH DIFFERENT DATA AND FEATURE SPACES}
+        \label{table3}
+
+\begin{tabular}{llll}
+\hline
+   & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}ALL\\ a \ \ \ \ \ \ \ \ v\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Psy15\\ a \ \ \ \ \ \ \ \ v\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}RRF\\ a \ \ \ \ \ \ \ \ v\end{tabular}} \\ \hline
+AV & 58.6\%  \ \ \ \  14.6\%                                                               & 57.0\%  \ \ \ \  22.2\%                                                                 & 60.9\%  \ \ \ \  25.4\%                                                               \\ 
+PC & 60.2\%  \ \ \ \  16.2\%                                                               & 58.5\%  \ \ \ \  18.1\%                                                                 & 58.3\%  \ \ \ \  28.1\%                                                               \\ \hline
+\end{tabular}
+
+\end{table}
+
+\egroup
+
+\subsection{Performance Evaluation of Data Space and Feature Space}
+Next, we compare the $R^2$ of various combinations of data
+spaces and feature spaces using SVR as the regressor. Result
+shown in Table VIII indicates the following.
+\begin{enumerate}
+    \item The best combination of data and feature space by summing the $R^2$ of arousal and valence directly is PC + RRF$_{18,15}$, and the resulting $R^2$ reaches 58.3\% for arousal and 28.1\% for valence.
+
+    \item Transforming the data to PC does not make significant difference to the prediction accuracy. This is interesting, since reducing the correlation between arousal and valence seems to have little influence. One possible reason to this phenomenon is that subjects can independently annotatearousal and valence to a certain extent, but it remains to validate this argument more rigorously.
+    
+    \item Selecting features by RRF greatly improves the accuracy (especially for valence), which shows the importance of feature selection. Generally the performance of adopted feature spaces is RRF $>$ Psy15 $>$ ALL.
+    
+    \item Using Psy15 as the feature space rather than ALL does not exhibit evident accuracy improvement for PC, which may be reasonable because the psychoacoustic meaning of the Psy15 features might be lost in the principal space.
+    
+    \item  Recall when we use AV + RRF, only three features are used to predict valence (see Table V); however, the reported $R^2$ 25.4\% is high enough compared to the best one 28.1\%. This finding implies most of the 114 extracted features may not be so relevant to valence.
+\end{enumerate}
+
+We also show the distributions of ground truth and prediction result for PC $+$ RRF$_{18,15}$ $+$ SVR in Fig. 5. It can be observed that the aggregated distributions are quite similar. Fig. 6 is obtained from in Fig. 5 by connecting predicted values to the corresponding ground truth values with lines.
+
+In summary, the best performance of the regression approach reaches 58.3\% for arousal and 28.1\% for valence by using PC $+$ RRF$_{18,15}$ $+$ SVR. This performance is considered satisfactory since it meets over half the upper bound estimated from the testretest reliability study with less than 20 features for both arousal and valence (see the last two rows of Table VII).
+
+To the best of our knowledge, there has been little previous work viewing MER from a continuous perspective. Therefore, in Section V-F we apply the regression approach to MEVD and compare our performance against the system ID approach [10], which has reported quantitative performance analysis and made dataset publicly available.
+
+\subsection{ Performance Evaluation for MEVD}
+To have a fair comparison, we apply the regression approach to MEVD by using the same ground truth data and feature data described in [10], where six classical music selections are segmented every second, and 18 musical features are extracted (17
+
+\begin{figure}[h]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.48\textwidth, height=0.3\textwidth]{fig5.png}
+\caption{Distributions of ground truth (blue point) and prediction result (red
+circle) for PC + RRF$_{18,15}$ + SVR. It can be observed that the distributions
+are similar. For a closer look, see Fig. 6}
+\label{fig3}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.48\textwidth, height=0.4\textwidth]{fig6.png}
+\caption{Distributions of ground truth values (blue stars) with lines connecting
+to the corresponding predicted values (red circles) by PC + RRF$_{18,15}$ + SVR
+For space limitation, only 100 songs are shown.}
+\label{fig3}
+\end{figure}
+
+
+\bgroup
+\def\arraystretch{1.3}
+\begin{table}[ht]
+    \centering
+        \caption{$R^2$ STATISTICS FOR MEVD USING THE SAME DATA AS [10]}
+        \label{table7}
+    \begin{tabular}{cccc}
+\hline
+Method                                              & Data                                                                                    & feature                                                                                              & \begin{tabular}[c]{@{}c@{}}$R^2$ statistics\\ a \ \ \ \ v\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}c@{}}System\\ ID\end{tabular} & \begin{tabular}[c]{@{}c@{}}6 classical music\\ annotated in the\\ AV space\end{tabular} & \begin{tabular}[c]{@{}c@{}}11PsySound features\\ +6 Marsyas features\\ +beat per minute\end{tabular} & 78.4\%  21.9\%                                             \\ 
+SVR                                                 & As above                                                                                & As above                                                                                             & 64.8\%  52.9\%                                             \\ \hline
+\end{tabular}
+\end{table}
+\egroup
+
+of them are extracted by PsySound and Marsyas). The $R^2$ reported in [10] is 78.4\% for arousal and 21.9\% for valence. We use SVR to predict the AV values for each 1-s segment and compute the average $R^2$ statistics. Results (64.8\% for arousal and 52.9\% for valence) shown in Table IX indicates the regression approach outperforms the system ID approach in a great extent for valence prediction and achieves comparable result for arousal prediction. This performance is remarkably good since the regression approach does not exploit any temporal information embedded in the time sequence. This experiment demonstrates the effectiveness of the regression approach for AV computation and shows the regression approach can be applied on
+MEVD as well.
+
+\section{DISCUSSION ON THE SUBJECTIVITY ISSUE}
+The paper has focused on solving the ambiguity issue. In this
+section, we discuss the ability of the regression approach to deal
+with the subjectivity issue.
+
+The subjectivity issue stems from the fact that music perception is intrinsically subjective and is under the influence of many factors such as cultural background, generation, sex, and personality. Therefore, as pointed out in [8], typical categorical approaches that simply assigning one emotion class to each song in a deterministic manner does not perform well in practice. Since the regression approach represents each song as a point in the emotion plane and thus offers more freedom in describing emotion, the prediction result is less deterministic. Besides the quadrant to which the song belongs, one can further know the
+emotion intensity by inspecting the AV values. This result is obviously more reasonable and informative.
+
+Despite that it has more freedom in describing a song, the regression approach may fail to exactly resolve the subjectivity issue since personal difference in the perception of popular music is too high, and since the regressors are trained based upon the average opinions of the subjects. It remains needed to address the subjectivity issue more effectively.
+
+We develop a group-wise MER scheme (GWMER) to resolve this issue. The main idea is to divide the users into a variety of user groups and train regressors for each group. The groups can be defined according to user information [34], [35] such as generation, sex, occupation, personality, etc., to reduce the individual differences for each group. The training process is similar to what we describe in Section IV except that the subjects are specified according to the target user group. The number of necessary subjects grows proportionally with the number of defined groups. After a collection of regressors have been trained, we can choose the most suitable $R_A$ and $R_V$ to respond to each user according to his/her personal information. In this way, the effect of a great number of individual factors is eliminated. See Fig. 7 for the system diagram.
+
+Personalization offers an alternative way to resolve the subjectivity issue. However, building a personalized MER system is difficult because emotion perception may be too subtle to be understood and described quantitatively. Another issue for the personalization is the extra user burden.
+
+GWMER represents a compromise between the general MER system presented in this paper and a personalized one. It can alleviate the subjectivity issue without resorting to too much user burden. Further investigation is worthwhile.
+
+
+
+
+
+
+
+
+\section{Conclusion}
+In this paper, a music selection is quantified as a point in the arousal-valence emotion plane. This continuous view of
+
+\begin{figure}[h]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.35\textwidth, height=0.2\textwidth]{fig7.png}
+\caption{GWMER scheme. A number of group-wise regressors are trained based
+on the user opinions of different homogeneous user groups. Because the individual difference is reduced by grouping users, the subjectivity problem is believed to be alleviated. When a new user comes to use the MER system, his/her
+user information is first collected, and then the appropriate $R_A$ and $R_V$ are
+chosen to respond to the user.}
+\label{fig3}
+\end{figure}
+
+music emotion makes the proposed MER system free of the inherent ambiguity issue from which conventional categorical approaches suffer. In addition, because there is more freedom in describing a song, the subjectivity issue is alleviated to some extent.
+
+The accuracy of the AV computation determines the viability of the MER system. We formulate MER as a regression problem and adopt the support vector regression for direct estimation of the AV values. Comparing to existing AV computation algorithms, the regression approach has a sound theoretical foundation, exhibits promising prediction accuracy, and needs no temporal information or geometric operations.
+
+Through an extensive performance study on the selection of data space, feature space, and regressor, we have demonstrated the effectiveness of the regression approach. The $R^2$ statistics reaches 58.3\% for arousal and 28.1\% for valence. We have also shown that the regression approach can be applied to MEVD and that it outperforms the approach proposed in [10].
+
+Since arousal and valence may be dependent, we apply principal component analysis on the ground truth data to reduce the data correlation. The resulting little accuracy improvement implies the subjects can label arousal and valence quite independently. We also employ RReliefF to select features and find the accuracy greatly improved.
+
+Future work will focus on exploiting features about lyrics and singing of a song, evaluating the regression approach on a largescale database, and realizing the GWMER scheme to further address the subjectivity issue.
+
+
+
+
+% An example of a 3loating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
 % For figures, \caption should occur after the \includegraphics.
 % Note that IEEEtran v1.7 and later has special internal code that
@@ -963,8 +1257,6 @@ We run a series of experiments to evaluate the performance of the regression app
 
 
 
-\section{Conclusion}
-The conclusion goes here.
 
 
 
@@ -985,21 +1277,11 @@ The conclusion goes here.
 %
 
 
-\appendices
-\section{Proof of the First Zonklar Equation}
-Appendix one text goes here.
-
-% you can choose not to have a title for an appendix
-% if you want by leaving the argument blank
-\section{}
-Appendix two text goes here.
-
 
 % use section* for acknowledgment
 \section*{Acknowledgment}
-
-
-The authors would like to thank...
+The authors would like to thank the reviewers for valuable
+comments that greatly improved the quality of this paper.
 
 
 % Can use something like this to put references on a page
@@ -1033,6 +1315,28 @@ The authors would like to thank...
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
 \begin{thebibliography}{1}
+
+\bibitem{}
+Y.~Feng, Y.~Zhuang, and Y.~Pan, “Popular music retrieval by detecting
+mood,” Proc. ACM SIGIR, pp. 375–376, 2003.
+
+\bibitem{}
+T. Li and M. Ogihara, “Content-based music similarity search and emotion detection,” in Proc. Int. Conf. Acoust., Speech, Signal Process.,
+Toulouse, France, 2006, pp. 17–21.
+
+\bibitem{}
+L. Lu, D. Liu, and H.-J. Zhang, “Automatic mood detection and
+tracking of music audio signals,” IEEE Trans. Audio, Speech, Lang.
+Process., vol. 14, no. 1, pp. 5–18, Jan. 2006.
+
+\bibitem{}
+ M.-Y. Wang, N.-Y. Zhang, and H.-C. Zhu, “User-adaptive music
+emotion recognition,” in Proc. Int. Conf. Sig. Process., 2004, pp.
+1352–1355.
+
+
+
+
 
 \bibitem{IEEEhowto:kopka}
 H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
@@ -1084,6 +1388,5 @@ Biography text here.
 
 % that's all folks
 \end{document}
-
 
 
