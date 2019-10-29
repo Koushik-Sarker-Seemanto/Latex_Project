@@ -352,6 +352,15 @@
 \usepackage{caption}
 \usepackage{textcomp}
 \usepackage[labelfont=up,labelsep=newline, font=scriptsize, skip=1ex]{caption}
+
+
+%Koushik's pakages%
+\usepackage{amsthm}
+\usepackage[bb=boondox]{mathalfa}
+\usepackage[normalem]{ulem}
+\useunder{\uline}{\ul}{}
+
+
 %\graphicspath{ {./Figures/} }
 \begin{document}
 %
@@ -655,6 +664,7 @@ Although AV modeling is based on some psychological understandings and the adopt
     \centering
         \caption{COMPARISON OF THE EXISTING METHODS FOR AV COMPUTATION}
         \label{table2}
+
     \begin{tabular}{ccccc}
     \hline
     Name                & Field & Accuracy                                                        & \begin{tabular}[c]{@{}c@{}}Temporal\\ information\end{tabular} & \begin{tabular}[c]{@{}c@{}}Geometric\\ operation\end{tabular} \\ \hline
@@ -701,15 +711,160 @@ a robust AV computation algorithm should have a sound theoretical foundation and
 Among the reviewed methods, only the system ID approach embeds a theoretical structure, yet it utilizes the temporal information which is not available for MER. In addition, the computation of AV values should be made without applying any geometric operation between arousal and valence due to their inexact relationship. It is also favorable to have the computation algorithm directly predict real values (i.e., arousal or valence)
 from extracted features.
 
-\subsection{Subsection Heading Here}
-Subsection text here.
+\section{REGRESSION APPROACH}
+Regression theory is a well-studied theory aiming at predicting a real value from observed variables (or features). It
+has a sound theoretical foundation, allows easy performance
+analysis and optimization, and generally provides reliable
+prediction performance [17]. Besides, no temporal information
+or geometric operation is needed. Therefore, formulating MER
+as a regression problem seems to be a promising approach.
+Below, we first describe how the formulation is made, then
+present the system description in detail. The performance study
+of the regression approach is reported in Section V.
 
-% needed in second column of first page if using \IEEEpubid
-%\IEEEpubidadjcol
+    Given \( N \) inputs , \((x_i,y_i), 1\leq i\leq N\) , where \(x_i\) is a feature
+vector for the \(i_{th}\) input sample, and \(y_i \in \mathbb{R}\) (\(\mathbb{R}\) denotes a set of real values) is the real value to be predicted for the \(i\)th sample,
+the regression system trains a regression algorithm (regressor) \(R(.)\) such that the mean squared error \(\varepsilon\) is minimized [17]:
+\begin{equation}
+\varepsilon = \frac{1}{N} \sum_{i=1}^{N} (y_i - R(x_i))^2
+\end{equation}
+where\(R(x_i)\) is the prediction result for the \(i\)th sample.
 
-\subsubsection{Subsubsection Heading Here}
-Subsubsection text here.
+Since the AV values are viewed upon as real values from the
+continuous perspective, the regression theory can be well applied to directly predict arousal and valence. To formulate MER as a regression problem, the following considerations are taken into account.
+\begin{enumerate}
+    \item Domain of \(\mathbb{R}\): The Thayer’s emotion plane is viewed as a coordinate space spanned by arousal and valence, where each value is confined within \([-1,1]\).
+    
+    \item Ground truth: The ground truth is set via a subjective test by averaging the subjects’ opinions about the AV values of each music sample (see Section IV-C).
+    
+    \item Feature extraction: The extracted features need to be relevant to emotion perception for the regressor to be accurate (see Sections IV-B and V).
+    
+    \item Regression algorithm: Although regression theory has been well studied and many good regressors are readily available [17], the performance of a regressor is case dependent. A number of regressors should be adopted and compared to find the best one (see Section IV-D).
+    
+    \item Number of regressors: Since we want to predict both arousal and valence, two regressors are required and are referred to as \(R_A\) and \(R_V\).
+    
+    \item Training fashion: As mentioned in Section I, there is a certain degree of dependency between arousal and valence. Therefore, apart from training \(R_A\) and \(R_V\) solely independently, we need to study whether the prediction accuracy is improved if the dependency of the AV values is considered (see Section V-B).
+    
+\end{enumerate}
 
+\section{SYSTEM DESCRIPTION}
+Our MER system represents each music selection as a point
+in the emotion plane and provides a friendly user interface for music retrieval and management. The system diagram is shown in Fig. 2, and the details are described below.
+
+\begin{figure}[h]
+\centering
+\captionsetup{justification=centering}
+\includegraphics[width=0.4\textwidth, height=0.3\textwidth]{fig2.png}
+\caption{System diagram of the proposed regression approach. Left: training phase; right: testing phase. \(R_A\) denotes the regressor for arousal, and \(R_V\) denotes the regressor for valence.}
+\label{fig2}
+\end{figure}
+
+\subsection{Data Collection and Preprocessing}
+The music database is made up of 195 popular songs selected from a number of Western, Chinese, and Japanese albums [8].Two criteria are used in the selection: 1) These songs should be distributed uniformly in each quadrant of the emotion plane. 2) Each music sample should express a certain dominant emotion.
+
+Note the genre of our database is popular music of different countries rather than the western classical music, which is commonly adopted in previous works [2]–[5], [10], [11]. Western classical music is often chosen because it is much easier to gain agreement on perceived emotion and thus has less subjectivity issue [3]. However, since the purpose of MER is to facilitate music retrieval and management in everyday music listening,
+and since it is the popular music that dominates the everyday music listening, we should not shy away from the subjectivity issue by using only western classical music. More discussions
+on the subjectivity issue are provided in Section VI.
+
+To compare the segments fairly, the music samples are converted to a uniform format (22 050 Hz, 16 bits, and mono channel PCM WAV) and normalized to the same volume level. Besides, since the emotion within a music selection can vary over time [8]–[11], for each song we manually select a 25-s segment (mostly the chorus part) that is representative of the
+song and expresses a certain dominant emotion. Accordingly, we predict the emotion of a music segment, and regard the prediction result as the emotion of the entire song. Note we choose to trim music manually since the performance of existing music thumbnailing algorithms [26] are considered not robust enough.
+
+
+\subsection{Feature Extraction}
+After preprocessing, we use the spectral contrast algorithm [3], DWCH algorithm [2], and two computer programs PsySound [27] and Marsyas [29] to extract musical features and construct a 114-dimension feature space, which is referred to as ALL hereafter. The extracted features, which are described in detail below, have been used for MER in pervious works. See Table III for denotations and brief descriptions.
+
+\bgroup
+\def\arraystretch{1.3}
+\vspace{1cm}
+\begin{table}[ht]
+    \centering
+        \caption{ADOPTED FEATURE EXTRACTION ALGORITHMS}
+        \label{table3}
+    
+    \begin{tabular}{ccl}
+\hline
+Method                                                                     & \begin{tabular}[c]{@{}c@{}}Number of\\ fearure\end{tabular} & \multicolumn{1}{c}{Description}                                                                                                                                             \\ \hline
+\begin{tabular}[c]{@{}c@{}}PsySound {[}27{]}\\ (P)\end{tabular}            & 44                                                          & \begin{tabular}[c]{@{}l@{}}Extracts features including loudness, level,\\ pitch multiplicity, and dissonance based on\\ psychoacoustic models.\end{tabular}                 \\ \hline
+\begin{tabular}[c]{@{}c@{}}Marsyas {[}29{]}\\ (M)\end{tabular}             & 30                                                          & \begin{tabular}[c]{@{}l@{}}Extracts timbral texture, rhythmic content and \\ pitch content features. It has been shown\\ useful in music genre classification.\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}c@{}}Spectral\\ contrast {[}3{]}\\ (SC)\end{tabular} & 12                                                          & \begin{tabular}[c]{@{}l@{}}Represents the relative characteristics of each\\ spectral subband, and reflects the distribution\\ of harmonic components.\end{tabular}         \\ \hline
+\begin{tabular}[c]{@{}c@{}}DWCH {[}2{]}\\ (D)\end{tabular}                 & 28                                                          & \begin{tabular}[c]{@{}l@{}}Daubechies wavelets coefficient histogram,\\ which has better ability in representig both \\ local and global information.\end{tabular}          \\ \hline
+Total (ALL)                                                                & 144                                                         &                                                                                                                                                                             \\ \hline
+\end{tabular}
+    
+\end{table}
+
+
+\vspace{.5cm}
+\begin{table}[ht]
+    \centering
+        \caption{15 PSYSOUND FEATURES (PSY15) RECOMMENDED IN [8]}
+        \label{table3}
+    
+    \begin{tabular}{cll}
+\hline
+\multicolumn{1}{l}{} & Feature             & Description                                \\ \hline
+1                    & Spectral Centroid   & The centroid of spectral density function. \\
+2                    & Loudness            & Human perception of sound intensity.       \\
+3, 4\(^1\)            & Sharpness           & A pitchlike (low-high) aspect of timbre.   \\
+5                    & Timbral Width       & The flatness of a loudness function.       \\
+6                    & Volume              & Human perception of the size of the sound. \\
+7, 8\(^1\)          & Spectral Dissonance & Roughness of all spectrum components.      \\
+9, 10\(^1\)         & Tonal Dissonance    & Roughness of just the tonal components.    \\
+11                   & Pure Tonal          & The audibility of the spectral pitches.    \\
+12                   & Complex Tonal       & The audibility of the virtual pitches.     \\
+13                   & Multiplicity        & The number of the pitches heard.           \\
+14                   & Tonality            & major-minor tonality, e.g., A major.       \\
+15                   & Chord               & Musical pitches sounded simultaneously. \\
+\hline \hline
+ & & \(^1\)Two algorithms used to extract the feature.
+\end{tabular}
+    
+\end{table}
+\egroup
+
+As the name indicates, PsySound aims to model parameters of auditory sensation based on some psychoacoustic models [27],[28]. Four types of measures are output by PsySound: loudness, level, dissonance, and pitch. Loudness measures include loudness, sharpness (sound brightness), and timbral width (sound flatness). Level measures include sound pressure level, background noise level etc. Dissonance measures are related to the perception of short irregularities in a sound; any note in music that does not fall within the prevailing harmony is considered dissonant. Pitch measures are related to the perceived fundamental frequency of a sound  Because of this psychoacoustical foundation, the features extracted by PsySound have been found much related to emotion perception, especially 15 of them [8]. Therefore, we utilize these 15 features to form a second feature space called Psy15. See Table IV for the description of Psy15.
+
+Marsyas is a free software framework for rapid development and evaluation of computer audition applications [29]. It generates 19 timbral texture features[spectralcentroid,spectralrolloff, spectral flux, time domain zero-crossing and Mel-frequency cepstral coefficient (MFCC)], six rhythmic content features (by beat and tempo detection) and five pitch content features (by multipitch detection). Spectral centroid, spectral rolloff, and spectral flux describe spectral shape properties, zero-crossing measures the noisiness of the signal, and MFCC is a nonmusical pitch scale commonly used in speech and audio signal processing.
+
+Spectral contrast features capture the relative spectral information in each subband and utilize the spectral peak, spectral valley, and their dynamics as features [3]. The spectral contrast features also roughly reflect the relative distribution of the harmonic and nonharmonic components in the spectrum.
+
+The Daubechies wavelets coefficient histogram (DWCH) features are computed from histograms of Daubechies wavelet coefficients at different frequency subbands with different resolutions. As [2] states, due to the use of wavelet technique, DWCH features have better ability in representing both local and global information than traditional features.
+
+PsySound and Marsyas are available online [27], [29], whereas spectral contrast and DWCH can be easily implemented in Matlab. Default values of the parameters as described in the original papers are adopted. Specifically, the analysis window for frame-level features is 23 ms (512 samples at 22 050-Hz sampling rate), and the frame-level features are
+integrated to clip-level features by the MeanVar model [30], which models each frame-level feature as a Gaussian distribution and represents the feature by mean and variance. All features are linearly normalized to [0, 1].
+
+\subsection{Subjective Test}
+The subjective test sets the ground truth of the AV values. 253 volunteers are recruited from the campus. Each of them is asked to listen to ten music samples randomly drawn from the aforementioned music database and to label the AV values from –1.0 to 1.0 in 11 ordinal levels. The ground truth is set by averaging the opinions of all subjects. On average, each music sample is labeled by more than ten subjects.
+
+Note that the subjects are asked to label the emotion based on their feelings of what the music sample is trying to evoke, rather than the emotion the subjects perceive at the test. We must make this distinction clear because perceived emotion and evoking emotion are not always the same. For example, a person who enjoys sorrowful tone might feel pleased when listening to sorrowful songs. Since MER is developed to help people retrieve music samples through a coordinate in the emotion plane, it is more natural and adequate that the AV values of a song are correspondent with the evoking emotion.
+
+No limitations on the background (e.g., psychology expertise, musicianship, etc.) are imposed when recruiting subjects since the MER system is expected to be applicable to every common people. However, because music emotion recognition is still new to all subjects, we need to inform them the essence of the emotion model, the purpose of the experiment, and the
+following rules of the subjective test.
+\begin{enumerate}
+    \item Label the evoking emotion rather than the perceived one.
+    \item Express the general feelings in response to melody, lyrics, and singing (vocal) of the song. We do not attempt to ignore the influences of the lyrics and singing even though the related features are not considered so far.
+    \item No limitation is given to the total duration of the labeling process. The subjects are allowed to listen to the music samples more than once to ensure the labels can truly reflect their feelings (typically the total duration of the labeling process is less than 15 min).
+    \item Music emotion perception is in nature subjective. The subjects are free to annotate personal feeling.
+\end{enumerate}
+
+The quality of the ground truth is central to the system performance. An evaluation of the consistency of the ground truth
+data is described in Section V-A.
+
+\subsection{Regressor Training}
+The 195 \((x_i,y_i)\) inputs from feature extraction and subjective test are then used to train the following three regression algorithms: multiple linear regression (MLR) [17], support vector regression (SVR)[18], and AdaBoost.RT (BoostR) [20].
+
+MLR is a standard regression algorithm which assumes a linear relationship between variables and estimates the linear relationship by a least squares estimator. We treat MLR as the baseline approach for its simplicity.
+
+Comparatively, SVR nonlinearly maps input feature vectors to a higher dimensional feature space by the kernel trick and yields prediction functions that are expanded on a subset of support vectors [18]. As its name indicates, SVR is an extension of the famous support vector classification, which has been found in many cases superior to existing machine learning methods. A number of previous works have adopted support vector classification for MER and reported excellent classification performance [2], [4], [6].
+
+BoostR is another nonlinear regression algorithm in which a number of regression trees are trained iteratively and weighted according to the prediction accuracy. After the iterative process, the prediction result of each regression tree is combined (weighted mean) to form the final hypothesis. The basic underlining concept of the boosting process is based on the observation that finding a number of weak predicting rules is much easier than finding a single, highly accurate one [20]. Boosting algorithms, which are the state-of-the-art methods for face detection [21], have been successfully applied in many
+machine learning problems.
+
+\subsection{Emotion Visualization}
+Associated with the AV values, each music sample is visualized as a point in the emotion plane, and the similarity between music samples can be estimated by computing the Euclidean distance in the emotion plane. A user interface that supports music retrieval/recommendation by specifying a point in the emotion plane can be realized without further labeling the unseen music samples (different from that of Musicovery [31]).Such a user interface can be of great use in managing large-scale music databases.
+
+\section{PERFORMANCE STUDY}
+We run a series of experiments to evaluate the performance of the regression approach. Different ground truth data spaces, feature spaces, and regression algorithms are compared in terms
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
@@ -929,5 +1084,6 @@ Biography text here.
 
 % that's all folks
 \end{document}
+
 
 
