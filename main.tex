@@ -538,16 +538,16 @@ creates a specific emotional response in the listener is still far
 from well-understood.
 
 To uncover the relationship between music and emotion,
-many previous works [1]–[8] have categorized emotions into
+many previous works \cite{1}--\cite{8} have categorized emotions into
 a number of emotion classes and applied the standard pattern
 recognition procedure to train a classifier. The methods de-
-scribed in [1] and [2] adopt the basic emotions such as happy,
+scribed in \cite{1} and \cite{2} adopt the basic emotions such as happy,
 angry, sad, and fear as the emotion classes, whereas the methods
-described in [3]–[8] recognize the ambiguity of adjectives and
+described in \cite{3}--\cite{8} recognize the ambiguity of adjectives and
 define the emotion classes in terms of arousal (how exciting or
 calming) and valence (how positive or negative). For example,
 the emotion classes can be divided into the four quadrants in
-Thayer’s arousal-valence emotion plane [12], Fig. 1.
+Thayer’s arousal-valence emotion plane \cite{12}, Fig. 1.
 
 However, even with the emotion plane, the categorical tax-
 onomy of emotion classes is still inherently ambiguous. Each
@@ -569,7 +569,7 @@ In this way, the ambiguity associated with emotion classes or ad-
 jectives can be successfully avoided since no categorical classes
 are needed. This continuous perspective has been adopted by
 psychologists to model the emotional response of the subjects
-[13], [14]. In [15], the software “FEELTRACE” is developed
+\cite{13}, \cite{14}. In \cite{15}, the software “FEELTRACE” is developed
 to let subjects track the emotion content of a stimulus (such as
 speech, music, or video) as they perceive it over time. However,
 a major issue of the continuous perspective is that arousal and
@@ -593,7 +593,7 @@ of music retrieval is much improved.
 The viability of the continuous approach heavily lies in the
 prediction accuracy of the AV values. Since automatic calcula-
 tion of the AV values (AV computation) is still at its early stage,
-and the performance of existing approaches [8]–[11] is unsatis-
+and the performance of existing approaches \cite{8}–-\cite{11} is unsatis-
 factory in many aspects (see Section II), a primary task of this
 paper is to develop an effective method for AV computation. We
 propose to formulate MER as a regression problem and use re-
@@ -603,20 +603,20 @@ rithm has sound theoretical basis, allows thorough performance
 study, and generally exhibits reliable prediction performance.
 The other main issue, the dependency between arousal and va-
 lence, is addressed by reducing the data correlation by principal
-component analysis [16].
+component analysis \cite{16}.
 
 An extensive performance study is conducted to evaluate the
 prediction accuracy of the proposed regression approach by
 using different combination of data spaces, feature spaces, and
-regression algorithms. Support vector regression [18] is found
+regression algorithms. Support vector regression \cite{18} is found
 to produce better prediction accuracy than linear regression
-[17] and AdaBoost.RT [20]. The $R^2$
-statistics [17] reaches
-58.3% for arousal and 28.1% for valence. Because there are
+\cite{17} and AdaBoost.RT \cite{20}. The $R^2$
+statistics \cite{17} reaches
+58.3\% for arousal and 28.1\% for valence. Because there are
 no other existing systems viewing MER from a continuous
 perspective, we apply the regression approach to detect the
 emotion variation within music selections and find it is superior
-to the one proposed in [10].
+to the one proposed in \cite{10}.
 
 In summary, the primary contributions of the paper include
 the following.
@@ -635,7 +635,7 @@ the following.
     MER(this work)        & continuous  & \begin{tabular}[c]{@{}l@{}}Representing each music selection\\ as a point in the emotion plane.\end{tabular}  \\ \hline
     \end{tabular}
     \end{table}
-    \item A novel AV computation method based on the regression theory is proposed. Principal component analysis [16] is employed to reduce the data correlation, and RReliefF [22] is utilized for feature selection (Sections III and IV).
+    \item A novel AV computation method based on the regression theory is proposed. Principal component analysis \cite{16} is employed to reduce the data correlation, and RReliefF \cite{22} is utilized for feature selection (Sections III and IV).
     \item An extensive performance study is conducted to demonstrate the accuracy and effectiveness of the regression approach for both music emotion recognition and music emotion variation detection (Section V).
     \item A group-wise MER scheme is proposed to solve the subjectivity issue of MER (Section VI).
 \end{itemize}
@@ -643,10 +643,10 @@ the following.
 %\hfill August 26, 2015
 \section{RELATED WORKS}
 Despite a great deal of effort that has been made for MER in
-recent years [1]–[8], little attention has been paid to view the
+recent years \cite{1}--\cite{8}, little attention has been paid to view the
 emotion plane from a continuous perspective. Some exceptions
 can be found in the music emotion variation detection (MEVD)
-field [8]–[11], where the emotion content of music is quantified as a time-varying continuous variable, and some statistical
+field \cite{8}--\cite{11}, where the emotion content of music is quantified as a time-varying continuous variable, and some statistical
 methods are developed to predict the emotion variation. How-
 ever, detecting the emotion variation is different from representing each song individually as a point in the emotion plane.
 Our work represents one of the first attempts pioneering this
@@ -655,7 +655,7 @@ novel perspective. See Table I for a comparison.
 In the following, we give brief review of existing AV computation methods and illuminate the rational of adopting the regression approach rather than these methods.
 
 \subsection{Arousal and Valence Modeling (AV Modeling)}
-To detect the emotion variation in video sequences, AV modeling is proposed in [9] to compute the AV values. The arousal and valence models are weighted combinations of some component functions that are computed along the timeline. The resulting arousal and valence curves are combined to form an effective curve, making it easy to trace the emotion variation of video content and to identify the segments with high emotional
+To detect the emotion variation in video sequences, AV modeling is proposed in \cite{9} to compute the AV values. The arousal and valence models are weighted combinations of some component functions that are computed along the timeline. The resulting arousal and valence curves are combined to form an effective curve, making it easy to trace the emotion variation of video content and to identify the segments with high emotional
 content. The component functions used for arousal are the motion vectors between consecutive video frames, the changes in shot lengths, and the energy of sound. Valence is modeled by the pitch of sound.
 
 Although AV modeling is based on some psychological understandings and the adopted features are intuitively related to emotion perception, it is difficult to evaluate the performance quantitatively due to lack of theoretical foundation. A rigorous approach that allows performance study is more favorable. Furthermore, unlike video, there are fewer salient music features that have strong link to emotion perception.
@@ -673,7 +673,7 @@ Although AV modeling is based on some psychological understandings and the adopt
     System ID {[}10{]}  & Music & \begin{tabular}[c]{@{}c@{}}78.4\% (a)\\ 21.9\% (v)\end{tabular} & Need                                                           & No need                                                       \\ \hline
     \end{tabular}
 \end{table}
-In [8], emotion classes are divided into four quadrants in the emotion plane (see Fig. 1), and each input sample is assigned a fuzzy vector indicating the relative strength of each class by fuzzy classifiers [24], [25]. For example, a fuzzy vector of four emotion classes is expressed as
+In \cite{8}, emotion classes are divided into four quadrants in the emotion plane (see Fig. 1), and each input sample is assigned a fuzzy vector indicating the relative strength of each class by fuzzy classifiers \cite{24}, \cite{25}. For example, a fuzzy vector of four emotion classes is expressed as
 \begin{equation}
 \mu =  \left\{ \mu_1,\mu_2,\mu_3,\mu_4 \right\},    \sum_{i=1}^4\mu_i=1 
 \end{equation}
@@ -690,7 +690,7 @@ Given a fuzzy vector, the fuzzy approach exploits the geometric relationship of 
 where $a$ denotes arousal and $v$ denotes valence. However, the transformation involves emotion classes that are not necessarily independent of, and orthogonal to, each other. Since the geometric relationship between arousal and valence is inexact, it is improper to perform arithmetic operations on the AV values. Besides, similar to AV modeling, the fuzzy approach is short of a quantitative performance evaluation mechanism for lack of ground truth.
 \vspace{-1em}
 \subsection{System Identification Approach (System ID)}
-A systematic approach for MEVD is proposed in [10],
+A systematic approach for MEVD is proposed in \cite{10},
 where the system identification technique is utilized to model
 the music emotion as a function of 18 musical features. The
 ground truth data are collected every second, so the music
@@ -698,10 +698,10 @@ selections are also segmented every second before feature
 extraction is performed. Six western classical music selections
 of various moods form the dataset. Results demonstrate that
 system identification provides a means to the generalization of
-the emotional content for a genre of music (western classical music), and the reported average $R^2$ statistics [17] is 78.4\% for arousal and 21.9\% for valence.
+the emotional content for a genre of music (western classical music), and the reported average $R^2$ statistics \cite{17} is 78.4\% for arousal and 21.9\% for valence.
 
 However, the system ID approach, as well as the time series
-analysis approach proposed earlier by Schubert [11], computes
+analysis approach proposed earlier by Schubert \cite{11}, computes
 the AV values by exploiting the temporal relationship between
 music segments, which is absent for MER.
 
@@ -716,7 +716,7 @@ from extracted features.
 Regression theory is a well-studied theory aiming at predicting a real value from observed variables (or features). It
 has a sound theoretical foundation, allows easy performance
 analysis and optimization, and generally provides reliable
-prediction performance [17]. Besides, no temporal information
+prediction performance \cite{17}. Besides, no temporal information
 or geometric operation is needed. Therefore, formulating MER
 as a regression problem seems to be a promising approach.
 Below, we first describe how the formulation is made, then
@@ -740,7 +740,7 @@ continuous perspective, the regression theory can be well applied to directly pr
     
     \item Feature extraction: The extracted features need to be relevant to emotion perception for the regressor to be accurate (see Sections IV-B and V).
     
-    \item Regression algorithm: Although regression theory has been well studied and many good regressors are readily available [17], the performance of a regressor is case dependent. A number of regressors should be adopted and compared to find the best one (see Section IV-D).
+    \item Regression algorithm: Although regression theory has been well studied and many good regressors are readily available \cite{17}, the performance of a regressor is case dependent. A number of regressors should be adopted and compared to find the best one (see Section IV-D).
     
     \item Number of regressors: Since we want to predict both arousal and valence, two regressors are required and are referred to as \(R_A\) and \(R_V\).
     
@@ -761,18 +761,18 @@ in the emotion plane and provides a friendly user interface for music retrieval 
 \end{figure}
 
 \subsection{Data Collection and Preprocessing}
-The music database is made up of 195 popular songs selected from a number of Western, Chinese, and Japanese albums [8].Two criteria are used in the selection: 1) These songs should be distributed uniformly in each quadrant of the emotion plane. 2) Each music sample should express a certain dominant emotion.
+The music database is made up of 195 popular songs selected from a number of Western, Chinese, and Japanese albums \cite{8}.Two criteria are used in the selection: 1) These songs should be distributed uniformly in each quadrant of the emotion plane. 2) Each music sample should express a certain dominant emotion.
 
-Note the genre of our database is popular music of different countries rather than the western classical music, which is commonly adopted in previous works [2]–[5], [10], [11]. Western classical music is often chosen because it is much easier to gain agreement on perceived emotion and thus has less subjectivity issue [3]. However, since the purpose of MER is to facilitate music retrieval and management in everyday music listening,
+Note the genre of our database is popular music of different countries rather than the western classical music, which is commonly adopted in previous works \cite{2}--\cite{5}, \cite{10}, \cite{11}. Western classical music is often chosen because it is much easier to gain agreement on perceived emotion and thus has less subjectivity issue \cite{3}. However, since the purpose of MER is to facilitate music retrieval and management in everyday music listening,
 and since it is the popular music that dominates the everyday music listening, we should not shy away from the subjectivity issue by using only western classical music. More discussions
 on the subjectivity issue are provided in Section VI.
 
-To compare the segments fairly, the music samples are converted to a uniform format (22 050 Hz, 16 bits, and mono channel PCM WAV) and normalized to the same volume level. Besides, since the emotion within a music selection can vary over time [8]–[11], for each song we manually select a 25-s segment (mostly the chorus part) that is representative of the
-song and expresses a certain dominant emotion. Accordingly, we predict the emotion of a music segment, and regard the prediction result as the emotion of the entire song. Note we choose to trim music manually since the performance of existing music thumbnailing algorithms [26] are considered not robust enough.
+To compare the segments fairly, the music samples are converted to a uniform format (22 050 Hz, 16 bits, and mono channel PCM WAV) and normalized to the same volume level. Besides, since the emotion within a music selection can vary over time \cite{8}--\cite{11}, for each song we manually select a 25-s segment (mostly the chorus part) that is representative of the
+song and expresses a certain dominant emotion. Accordingly, we predict the emotion of a music segment, and regard the prediction result as the emotion of the entire song. Note we choose to trim music manually since the performance of existing music thumbnailing algorithms \cite{26} are considered not robust enough.
 
 
 \subsection{Feature Extraction}
-After preprocessing, we use the spectral contrast algorithm [3], DWCH algorithm [2], and two computer programs PsySound [27] and Marsyas [29] to extract musical features and construct a 114-dimension feature space, which is referred to as ALL hereafter. The extracted features, which are described in detail below, have been used for MER in pervious works. See Table III for denotations and brief descriptions.
+After preprocessing, we use the spectral contrast algorithm \cite{3}, DWCH algorithm \cite{2}, and two computer programs PsySound \cite{27} and Marsyas \cite{29} to extract musical features and construct a 114-dimension feature space, which is referred to as ALL hereafter. The extracted features, which are described in detail below, have been used for MER in pervious works. See Table III for denotations and brief descriptions.
 
 \bgroup
 \def\arraystretch{1.3}
@@ -798,7 +798,7 @@ Total (ALL)                                                                & 144
 \vspace{.5cm}
 \begin{table}[ht]
     \centering
-        \caption{15 PSYSOUND FEATURES (PSY15) RECOMMENDED IN [8]}
+        \caption{15 PSYSOUND FEATURES (PSY15) RECOMMENDED IN \cite{8}}
         \label{table3}
     
     \begin{tabular}{cll}
@@ -823,16 +823,16 @@ Total (ALL)                                                                & 144
 \end{table}
 \egroup
 
-As the name indicates, PsySound aims to model parameters of auditory sensation based on some psychoacoustic models [27],[28]. Four types of measures are output by PsySound: loudness, level, dissonance, and pitch. Loudness measures include loudness, sharpness (sound brightness), and timbral width (sound flatness). Level measures include sound pressure level, background noise level etc. Dissonance measures are related to the perception of short irregularities in a sound; any note in music that does not fall within the prevailing harmony is considered dissonant. Pitch measures are related to the perceived fundamental frequency of a sound  Because of this psychoacoustical foundation, the features extracted by PsySound have been found much related to emotion perception, especially 15 of them [8]. Therefore, we utilize these 15 features to form a second feature space called Psy15. See Table IV for the description of Psy15.
+As the name indicates, PsySound aims to model parameters of auditory sensation based on some psychoacoustic models \cite{27},\cite{28}. Four types of measures are output by PsySound: loudness, level, dissonance, and pitch. Loudness measures include loudness, sharpness (sound brightness), and timbral width (sound flatness). Level measures include sound pressure level, background noise level etc. Dissonance measures are related to the perception of short irregularities in a sound; any note in music that does not fall within the prevailing harmony is considered dissonant. Pitch measures are related to the perceived fundamental frequency of a sound  Because of this psychoacoustical foundation, the features extracted by PsySound have been found much related to emotion perception, especially 15 of them \cite{8}. Therefore, we utilize these 15 features to form a second feature space called Psy15. See Table IV for the description of Psy15.
 
-Marsyas is a free software framework for rapid development and evaluation of computer audition applications [29]. It generates 19 timbral texture features[spectralcentroid,spectralrolloff, spectral flux, time domain zero-crossing and Mel-frequency cepstral coefficient (MFCC)], six rhythmic content features (by beat and tempo detection) and five pitch content features (by multipitch detection). Spectral centroid, spectral rolloff, and spectral flux describe spectral shape properties, zero-crossing measures the noisiness of the signal, and MFCC is a nonmusical pitch scale commonly used in speech and audio signal processing.
+Marsyas is a free software framework for rapid development and evaluation of computer audition applications [\cite{29}. It generates 19 timbral texture features[spectralcentroid,spectralrolloff, spectral flux, time domain zero-crossing and Mel-frequency cepstral coefficient (MFCC)], six rhythmic content features (by beat and tempo detection) and five pitch content features (by multipitch detection). Spectral centroid, spectral rolloff, and spectral flux describe spectral shape properties, zero-crossing measures the noisiness of the signal, and MFCC is a nonmusical pitch scale commonly used in speech and audio signal processing.
 
-Spectral contrast features capture the relative spectral information in each subband and utilize the spectral peak, spectral valley, and their dynamics as features [3]. The spectral contrast features also roughly reflect the relative distribution of the harmonic and nonharmonic components in the spectrum.
+Spectral contrast features capture the relative spectral information in each subband and utilize the spectral peak, spectral valley, and their dynamics as features \cite{3}. The spectral contrast features also roughly reflect the relative distribution of the harmonic and nonharmonic components in the spectrum.
 
-The Daubechies wavelets coefficient histogram (DWCH) features are computed from histograms of Daubechies wavelet coefficients at different frequency subbands with different resolutions. As [2] states, due to the use of wavelet technique, DWCH features have better ability in representing both local and global information than traditional features.
+The Daubechies wavelets coefficient histogram (DWCH) features are computed from histograms of Daubechies wavelet coefficients at different frequency subbands with different resolutions. As \cite{2} states, due to the use of wavelet technique, DWCH features have better ability in representing both local and global information than traditional features.
 
-PsySound and Marsyas are available online [27], [29], whereas spectral contrast and DWCH can be easily implemented in Matlab. Default values of the parameters as described in the original papers are adopted. Specifically, the analysis window for frame-level features is 23 ms (512 samples at 22 050-Hz sampling rate), and the frame-level features are
-integrated to clip-level features by the MeanVar model [30], which models each frame-level feature as a Gaussian distribution and represents the feature by mean and variance. All features are linearly normalized to [0, 1].
+PsySound and Marsyas are available online \cite{27}, \cite{29}, whereas spectral contrast and DWCH can be easily implemented in Matlab. Default values of the parameters as described in the original papers are adopted. Specifically, the analysis window for frame-level features is 23 ms (512 samples at 22 050-Hz sampling rate), and the frame-level features are
+integrated to clip-level features by the MeanVar model \cite{30}, which models each frame-level feature as a Gaussian distribution and represents the feature by mean and variance. All features are linearly normalized to [0, 1].
 
 \subsection{Subjective Test}
 The subjective test sets the ground truth of the AV values. 253 volunteers are recruited from the campus. Each of them is asked to listen to ten music samples randomly drawn from the aforementioned music database and to label the AV values from –1.0 to 1.0 in 11 ordinal levels. The ground truth is set by averaging the opinions of all subjects. On average, each music sample is labeled by more than ten subjects.
@@ -852,17 +852,17 @@ The quality of the ground truth is central to the system performance. An evaluat
 data is described in Section V-A.
 
 \subsection{Regressor Training}
-The 195 \((x_i,y_i)\) inputs from feature extraction and subjective test are then used to train the following three regression algorithms: multiple linear regression (MLR) [17], support vector regression (SVR)[18], and AdaBoost.RT (BoostR) [20].
+The 195 \((x_i,y_i)\) inputs from feature extraction and subjective test are then used to train the following three regression algorithms: multiple linear regression (MLR) \cite{17}, support vector regression (SVR)[18], and AdaBoost.RT (BoostR) \cite{20}.
 
 MLR is a standard regression algorithm which assumes a linear relationship between variables and estimates the linear relationship by a least squares estimator. We treat MLR as the baseline approach for its simplicity.
 
-Comparatively, SVR nonlinearly maps input feature vectors to a higher dimensional feature space by the kernel trick and yields prediction functions that are expanded on a subset of support vectors [18]. As its name indicates, SVR is an extension of the famous support vector classification, which has been found in many cases superior to existing machine learning methods. A number of previous works have adopted support vector classification for MER and reported excellent classification performance [2], [4], [6].
+Comparatively, SVR nonlinearly maps input feature vectors to a higher dimensional feature space by the kernel trick and yields prediction functions that are expanded on a subset of support vectors [18]. As its name indicates, SVR is an extension of the famous support vector classification, which has been found in many cases superior to existing machine learning methods. A number of previous works have adopted support vector classification for MER and reported excellent classification performance \cite{9}, \cite{4}, \cite{6}.
 
-BoostR is another nonlinear regression algorithm in which a number of regression trees are trained iteratively and weighted according to the prediction accuracy. After the iterative process, the prediction result of each regression tree is combined (weighted mean) to form the final hypothesis. The basic underlining concept of the boosting process is based on the observation that finding a number of weak predicting rules is much easier than finding a single, highly accurate one [20]. Boosting algorithms, which are the state-of-the-art methods for face detection [21], have been successfully applied in many
+BoostR is another nonlinear regression algorithm in which a number of regression trees are trained iteratively and weighted according to the prediction accuracy. After the iterative process, the prediction result of each regression tree is combined (weighted mean) to form the final hypothesis. The basic underlining concept of the boosting process is based on the observation that finding a number of weak predicting rules is much easier than finding a single, highly accurate one \cite{20}. Boosting algorithms, which are the state-of-the-art methods for face detection \cite{21}, have been successfully applied in many
 machine learning problems.
 
 \subsection{Emotion Visualization}
-Associated with the AV values, each music sample is visualized as a point in the emotion plane, and the similarity between music samples can be estimated by computing the Euclidean distance in the emotion plane. A user interface that supports music retrieval/recommendation by specifying a point in the emotion plane can be realized without further labeling the unseen music samples (different from that of Musicovery [31]).Such a user interface can be of great use in managing large-scale music databases.
+Associated with the AV values, each music sample is visualized as a point in the emotion plane, and the similarity between music samples can be estimated by computing the Euclidean distance in the emotion plane. A user interface that supports music retrieval/recommendation by specifying a point in the emotion plane can be realized without further labeling the unseen music samples (different from that of Musicovery \cite{31}).Such a user interface can be of great use in managing large-scale music databases.
 
 \section{PERFORMANCE STUDY}
 We run a series of experiments to evaluate the performance of the regression approach. Different ground truth data spaces, feature spaces, and regression algorithms are compared in terms
@@ -880,23 +880,23 @@ goodness of fit for regression models [17]
 \begin{equation}
 R^2 = 1 - \frac{N \varepsilon}{ \sum_{i=1}^N (y_i - \overline{y})^2}
 \end{equation}
-where \(\overline{y}\) is the mean of the ground truth, and the normalization of the total squared error \((N \varepsilon)\) by the energy of the ground truth makes \(R^2\) comparable between experiments. \(R^2\) is often interpreted as the proportion of underlying data variation that is explained by the fitted regression model [32]. An \(R^2\) of 1.0 means the model perfectly fits the data, while a negative \(R^2\) means the model is even worse than simply taking the sample mean. However, the kind of the \(R^2\) statistics that is satisfactory is case-dependent.
+where \(\overline{y}\) is the mean of the ground truth, and the normalization of the total squared error \((N \varepsilon)\) by the energy of the ground truth makes \(R^2\) comparable between experiments. \(R^2\) is often interpreted as the proportion of underlying data variation that is explained by the fitted regression model \cite{32}. An \(R^2\) of 1.0 means the model perfectly fits the data, while a negative \(R^2\) means the model is even worse than simply taking the sample mean. However, the kind of the \(R^2\) statistics that is satisfactory is case-dependent.
 
-We evaluate the performance of regression by the tenfold cross validation technique [16], in which the whole dataset is randomly divided into ten parts, nine of them for training and the remaining one for testing. The above process is repeated 20 times before we compute the average result. \(R^2\) for each data dimension (say, arousal, and valence) is computed separately.
+We evaluate the performance of regression by the tenfold cross validation technique \cite{16}, in which the whole dataset is randomly divided into ten parts, nine of them for training and the remaining one for testing. The above process is repeated 20 times before we compute the average result. \(R^2\) for each data dimension (say, arousal, and valence) is computed separately.
 
 \subsection{Consistency Evaluation of the Ground Truth}
 We evaluate the consistency of the ground truth in two ways. First, the consistency of annotations given by different subjects for the same song is evaluated by the standard deviation of annotations. Since the ground truth is obtained by averaging subjects’ annotations, the larger the standard deviation is, the less representative the ground truth can be.
 
-Fig. 3(a) shows the histogram of standard deviations for arousal and valence in the first course of the subjective test. We can see that most standard deviations of music samples are about 0.3, which give rise to a 95\% confidence interval [32] of roughly \(\pm{0.2}\) (sample size is ten since each music sample is labeled by more than ten subjects). On a range of \(-1.0\) to 1.0, a range of 0.4 is not that big, yet it reflects the subjectivity issue
+Fig. 3(a) shows the histogram of standard deviations for arousal and valence in the first course of the subjective test. We can see that most standard deviations of music samples are about 0.3, which give rise to a 95\% confidence interval \cite{32} of roughly \(\pm{0.2}\) (sample size is ten since each music sample is labeled by more than ten subjects). On a range of \(-1.0\) to 1.0, a range of 0.4 is not that big, yet it reflects the subjectivity issue
 mentioned in Section I.
 
-Second, we evaluate whether the annotations given by the same subject are similar after a span of time by conducting a test-retest reliability study [33] and computing the absolute difference between corresponding annotations for the same song. The larger the absolute difference is, the less repeatable the subjective test could be. We conduct a second course of subjective test two months after the first one, and invite 22 subjects to label the music samples they labeled in the first course again.
+Second, we evaluate whether the annotations given by the same subject are similar after a span of time by conducting a test-retest reliability study \cite{33} and computing the absolute difference between corresponding annotations for the same song. The larger the absolute difference is, the less repeatable the subjective test could be. We conduct a second course of subjective test two months after the first one, and invite 22 subjects to label the music samples they labeled in the first course again.
 
 Fig. 3(b) shows the histogram of absolute difference for arousal and valence of 220 (22 \(\times\) 10) data pairs in the test-retest stability study. We can see that more than one half of the absolute differences fall below 0.1, showing the annotations given by the same person are quite similar.
 
 In summary, while Fig. 3(b) shows that the subjective test by the same person is repeatable, Fig. 3(a) shows a certain degree of inconsistency in the ground truth data. The inconsistency is reasonable because music perception is subjective in nature. However, it should be noted that the consistency can be improved if we personalize the MER system, or, in a similar sense, reduce the individual differences of the subjects by grouping them according to individual factors. See Section VI for more discussions.
 
-Using the absolute difference of test-retest reliability, we can compute an upper bound of \(R^2\) for the regression approach: 80.5\% for arousal and 58.6\% for valence. This approximated upper bound defines both the viability of the regression approach and the kind of \(R^2\) that is reasonable for the regression approach. The low upper bound for valence is not surprising since, as [11] and many previous works on MER have pointed out, generally arousal is much easier to model than valence. There are two main reasons, which are actually related to each other, for this phenomenon. First, while there are a number of features relevant to arousal such as loudness (loud/soft), tempo (fast/slow), and pitch (high/low), there are few salient features for valence. Second, the perception of valence is more subjective than that of arousal; there is a good chance that people perceive opposite valence for the same song.
+Using the absolute difference of test-retest reliability, we can compute an upper bound of \(R^2\) for the regression approach: 80.5\% for arousal and 58.6\% for valence. This approximated upper bound defines both the viability of the regression approach and the kind of \(R^2\) that is reasonable for the regression approach. The low upper bound for valence is not surprising since, as \cite{11} and many previous works on MER have pointed out, generally arousal is much easier to model than valence. There are two main reasons, which are actually related to each other, for this phenomenon. First, while there are a number of features relevant to arousal such as loudness (loud/soft), tempo (fast/slow), and pitch (high/low), there are few salient features for valence. Second, the perception of valence is more subjective than that of arousal; there is a good chance that people perceive opposite valence for the same song.
 
 \subsection{Data Space}
 As mentioned in Section I, a major issue of the continuous
@@ -907,7 +907,7 @@ between and in our dataset can reach 0.3368; therefore, it is
 interesting to see whether the performance of regression can be
 improved by reducing the data correlation first.
 
-A common method for reducing the correlation between variables is the principal component analysis (PCA)[16], which entails the computation of a loading matrix \(L\) to transform original data \(Y\) to principal components \(U\) such that
+A common method for reducing the correlation between variables is the principal component analysis (PCA)\cite{16}, which entails the computation of a loading matrix \(L\) to transform original data \(Y\) to principal components \(U\) such that
 \begin{equation}
     U = L(Y - mean(Y))
 \end{equation}
@@ -945,9 +945,9 @@ RRF$_{m,n}$                      & \begin{tabular}[c]{@{}l@{}}AV: 8 / 3\\ PC: 18
 \egroup
 
 \subsection{Feature Space}
-From the machine learning point of view, features are not necessarily of equal importance or quality, and irrelevant or redundant features may lead to inaccurate conclusion. Although domain knowledge helps identify good features, there is only limited understanding of how music evokes emotion. One solution for addressing this problem is to extract a number of musical features and then use a feature selection algorithm (FSA) to identify good features [23].
+From the machine learning point of view, features are not necessarily of equal importance or quality, and irrelevant or redundant features may lead to inaccurate conclusion. Although domain knowledge helps identify good features, there is only limited understanding of how music evokes emotion. One solution for addressing this problem is to extract a number of musical features and then use a feature selection algorithm (FSA) to identify good features \cite{23}.
 
-The purpose of FSA is to find the optimal feature subset that gives the maximal prediction accuracy and keeps the feature dimension minimal. For its simplicity and effectiveness, RReliefF [22] is adopted in our work. It evaluates the features one by one and assigns a real number to each feature to indicate its importance. Because RReliefF takes feature interrelationship into account, it is better than other statistical measures such as correlation coefficient, information gain, and signal to noise ratio [22].
+The purpose of FSA is to find the optimal feature subset that gives the maximal prediction accuracy and keeps the feature dimension minimal. For its simplicity and effectiveness, RReliefF [22] is adopted in our work. It evaluates the features one by one and assigns a real number to each feature to indicate its importance. Because RReliefF takes feature interrelationship into account, it is better than other statistical measures such as correlation coefficient, information gain, and signal to noise ratio \cite{22}.
 
 We run RReliefF for each data space and rank the features
 by importance. Then we run SVR with the top-$m$ and top-$n$ selected features for the two dimensions in each data space to
@@ -958,7 +958,7 @@ features for arousal are related to spectral shape and pitch, and
 the top features for valence are more related to rhythmic (beat
 and tempo) and pitch properties of sound. Note for valence, the
 combination of the first three features gives rise to the minimal
-mean squared error. Among them, spectral dissonance (computed using Sethares’ algorithm [27]) is related to the noisiness
+mean squared error. Among them, spectral dissonance (computed using Sethares’ algorithm \cite{27}) is related to the noisiness
 of the spectrum, tonality is related to pitch, whereas the overall
 sum of beat histogram is related to tempo. It is also observed
 that energy-related features are not much relevant to arousal, a
@@ -1107,7 +1107,7 @@ SVR                                                 & As above                  
 \end{table}
 \egroup
 
-of them are extracted by PsySound and Marsyas). The $R^2$ reported in [10] is 78.4\% for arousal and 21.9\% for valence. We use SVR to predict the AV values for each 1-s segment and compute the average $R^2$ statistics. Results (64.8\% for arousal and 52.9\% for valence) shown in Table IX indicates the regression approach outperforms the system ID approach in a great extent for valence prediction and achieves comparable result for arousal prediction. This performance is remarkably good since the regression approach does not exploit any temporal information embedded in the time sequence. This experiment demonstrates the effectiveness of the regression approach for AV computation and shows the regression approach can be applied on
+of them are extracted by PsySound and Marsyas). The $R^2$ reported in \cite{10} is 78.4\% for arousal and 21.9\% for valence. We use SVR to predict the AV values for each 1-s segment and compute the average $R^2$ statistics. Results (64.8\% for arousal and 52.9\% for valence) shown in Table IX indicates the regression approach outperforms the system ID approach in a great extent for valence prediction and achieves comparable result for arousal prediction. This performance is remarkably good since the regression approach does not exploit any temporal information embedded in the time sequence. This experiment demonstrates the effectiveness of the regression approach for AV computation and shows the regression approach can be applied on
 MEVD as well.
 
 \section{DISCUSSION ON THE SUBJECTIVITY ISSUE}
@@ -1120,7 +1120,7 @@ emotion intensity by inspecting the AV values. This result is obviously more rea
 
 Despite that it has more freedom in describing a song, the regression approach may fail to exactly resolve the subjectivity issue since personal difference in the perception of popular music is too high, and since the regressors are trained based upon the average opinions of the subjects. It remains needed to address the subjectivity issue more effectively.
 
-We develop a group-wise MER scheme (GWMER) to resolve this issue. The main idea is to divide the users into a variety of user groups and train regressors for each group. The groups can be defined according to user information [34], [35] such as generation, sex, occupation, personality, etc., to reduce the individual differences for each group. The training process is similar to what we describe in Section IV except that the subjects are specified according to the target user group. The number of necessary subjects grows proportionally with the number of defined groups. After a collection of regressors have been trained, we can choose the most suitable $R_A$ and $R_V$ to respond to each user according to his/her personal information. In this way, the effect of a great number of individual factors is eliminated. See Fig. 7 for the system diagram.
+We develop a group-wise MER scheme (GWMER) to resolve this issue. The main idea is to divide the users into a variety of user groups and train regressors for each group. The groups can be defined according to user information \cite{34}, \cite{35} such as generation, sex, occupation, personality, etc., to reduce the individual differences for each group. The training process is similar to what we describe in Section IV except that the subjects are specified according to the target user group. The number of necessary subjects grows proportionally with the number of defined groups. After a collection of regressors have been trained, we can choose the most suitable $R_A$ and $R_V$ to respond to each user according to his/her personal information. In this way, the effect of a great number of individual factors is eliminated. See Fig. 7 for the system diagram.
 
 Personalization offers an alternative way to resolve the subjectivity issue. However, building a personalized MER system is difficult because emotion perception may be too subtle to be understood and described quantitatively. Another issue for the personalization is the extra user burden.
 
@@ -1151,7 +1151,7 @@ music emotion makes the proposed MER system free of the inherent ambiguity issue
 
 The accuracy of the AV computation determines the viability of the MER system. We formulate MER as a regression problem and adopt the support vector regression for direct estimation of the AV values. Comparing to existing AV computation algorithms, the regression approach has a sound theoretical foundation, exhibits promising prediction accuracy, and needs no temporal information or geometric operations.
 
-Through an extensive performance study on the selection of data space, feature space, and regressor, we have demonstrated the effectiveness of the regression approach. The $R^2$ statistics reaches 58.3\% for arousal and 28.1\% for valence. We have also shown that the regression approach can be applied to MEVD and that it outperforms the approach proposed in [10].
+Through an extensive performance study on the selection of data space, feature space, and regressor, we have demonstrated the effectiveness of the regression approach. The $R^2$ statistics reaches 58.3\% for arousal and 28.1\% for valence. We have also shown that the regression approach can be applied to MEVD and that it outperforms the approach proposed in \cite{10}.
 
 Since arousal and valence may be dependent, we apply principal component analysis on the ground truth data to reduce the data correlation. The resulting little accuracy improvement implies the subjects can label arousal and valence quite independently. We also employ RReliefF to select features and find the accuracy greatly improved.
 
@@ -1316,31 +1316,194 @@ comments that greatly improved the quality of this paper.
 % (used to reserve space for the reference number labels box)
 \begin{thebibliography}{1}
 
-\bibitem{}
+\bibitem{1}
 Y.~Feng, Y.~Zhuang, and Y.~Pan, “Popular music retrieval by detecting
 mood,” Proc. ACM SIGIR, pp. 375–376, 2003.
 
-\bibitem{}
+\bibitem{2}
 T. Li and M. Ogihara, “Content-based music similarity search and emotion detection,” in Proc. Int. Conf. Acoust., Speech, Signal Process.,
 Toulouse, France, 2006, pp. 17–21.
 
-\bibitem{}
+\bibitem{3}
 L. Lu, D. Liu, and H.-J. Zhang, “Automatic mood detection and
 tracking of music audio signals,” IEEE Trans. Audio, Speech, Lang.
 Process., vol. 14, no. 1, pp. 5–18, Jan. 2006.
 
-\bibitem{}
+\bibitem{4}
  M.-Y. Wang, N.-Y. Zhang, and H.-C. Zhu, “User-adaptive music
 emotion recognition,” in Proc. Int. Conf. Sig. Process., 2004, pp.
 1352–1355.
 
+\bibitem{5}
+T.-L. Wu and S.-K. Jeng, “Extraction of segments of significant emotional expressions in music,” in Proc. Int. Workshop Comput. Music
+Audio Technol., 2006, pp. 76–80.
+
+
+\bibitem{6}
+D. Yang and W. Lee, “Disambiguating music emotion using software
+agents,” in Proc. Int. Conf. Music Inf. Retrieval, 2004, pp. 52–58.
+
+
+\bibitem{7}
+V. Carvalho and C. Chao, “Sentiment retrieval in popular music based
+on sequential learning,” Proc. ACM SIGIR, 2005 [Online]. Available:
+http://www.mit.edu/~chihyu/projects/carvalho\_chao\_sigir05.pdf
+
+
+
+\bibitem{8}
+Y.-H. Yang, C.-C. Liu, and H. H. Chen, “Music emotion classification: A fuzzy approach,” in Proc. ACM Multimedia, Santa Barbara, CA,
+2006, pp. 81–84.
+
+
+
+\bibitem{9}
+A. Hanjalic and L.-Q. Xu, “Affective video content representation and
+modeling,” IEEE Trans. Multimedia, vol. 7, no. 1, pp. 143–154, Feb.
+2005.
+
+
+\bibitem{10}
+M. D. Korhonen, D. A. Clausi, and M. E. Jernigan, “Modeling emotional content of music using system identification,” IEEE Trans. Syst.,
+Man., Cybern., vol. 36, no. 3, pp. 588–599, Jun. 2006.
+
+\bibitem{11}
+E. Schubert, “Measurement and time series analysis of emotion in
+music,” Ph.D. dissertation, School of Music Music Education, Univ.
+New South Wales, Sydney, NSW, Australia, 1999.
+
+
+\bibitem{12}
+R. E. Thayer, The Biopsychology of Mood and Arousal. New York:
+Oxford Univ. Press, 1989.
+
+
+\bibitem{13}
+P. J. Lang, “The emotion probe,” Amer. Psychol., vol. 50, no. 5, pp.
+372–385, 1995.
+
+
+\bibitem{14}
+J. A. Russell, A. Weiss, and G. A. Mendelsohn, “Affect grid: A singleitem scale of pleasure and arousal,” J. Personality Social Psychol., vol.
+57, no. 3, pp. 493–502, 1989.
+
+
+\bibitem{15}
+R. Cowie, E. Douglas-Cowie, S. Savvidou, E. McMahon, M. Sawey,
+and M. Schröder, “’FEELTRACE’: An instrument for recording perceived emotion in real time,” in Proc. Speech Emotion, ISCA Tutorial
+Res. Workshop, Newcastle, U.K., 2000, pp. 19–24.
+
+
+\bibitem{16}
+R. O. Duda, P. E. Hart, and D. G. Stork, Pattern Recognition. New
+York: Wiley, 2000.
+
+
+\bibitem{17}
+A. Sen and M. Srivastava, Regression Analysis: Theory, Methods, and
+Applications. New York: Springer, 1990.
+
+
+\bibitem{18}
+A. J. Smola and B. Schölkopf, “A tutorial on support vector regression,”
+Statist. Comput., pp. 199–222, 2004.
+
+
+\bibitem{19}
+ C.-C. Chang and C.-J. Lin, LIBSVM: A library for support vector machines 2001 [Online]. Available: http://www.csie.ntu.edu.tw/sim cjlin/
+libsvm
+
+
+\bibitem{20}
+D. P. Solomatine and D. L. Shrestha, “AdaBoost.RT: A boosting algorithm for regression problems,” in Proc. IEEE Int. Joint Conf. Neural
+Netw., 2004, pp. 1163–1168.
+
+
+\bibitem{21}
+P. Viola and M. J. Jones, “Robust real-time face detection,” Int. J.
+Comput. Vision, vol. 57, no. 2, pp. 137–154, 2004.
+
+
+\bibitem{22}
+M. R. Sikonja and I. Kononenko, ˇ “Theoretical and empirical analysis
+of relieff and RRelieFF,” Mach. Learn. J., vol. 53, pp. 23–69, 2003.
+
+
+\bibitem{23}
+L. C. Molina, L. Belanche, and A. Nebot, “Feature selection algorithms: A survey and experimental evaluation,” in Proc. IEEE Int. Conf.
+Data Mining, 2002, pp. 306–313.
+
+
+\bibitem{24}
+J. M. Keller, M. R. Gray, and J. A. Givens, “Fuzzy k-nearest neighbor
+algorithm,” IEEE Trans. Syst., Man, Cybern., vol. SMC-15, no. 4, pp.
+580–584, Aug. 1985.
+
+
+\bibitem{25}
+D. Tran, M. Wagner, and T. Zheng, “Fuzzy nearest prototype classifier
+applied to speaker identification,” Proc. ESIT, 1999 [Online]. Available: http://www.erudit.de/erudit/events/esit99/12615\_p.pdf
+
+
+\bibitem{26}
+N. C. Maddage, C. Xu, M. S. Kankanhalli, and X. Shao, “Contentbased music structure analysis with applications to music semantics
+understanding,” in Proc. ACM Multimedia, 2004, pp. 112–119.
+
+
+\bibitem{27}
+D. Cabrera, “PSYSOUND: A computer program for psychoacoustical
+analysis,” in Proc. Australian Acoust. Soc. Conf., 1999, pp. 47–54 [Online]. Available: http://www.psysound.org
+
+
+\bibitem{28}
+J. Ricard, “Towards computational morphological description of
+sound,” Ph.D. dissertation, Univ. Pompeu Fabra, Barcelona, Spain,
+2004.
+
+
+
+\bibitem{29}
+G. Tzanetakis and P. Cook, “Musical genre classification of audio signals,” IEEE Trans. Speech Audio Process., vol. 10, no. 5, pp. 293–302,
+Jul. 2002.
+
+
+\bibitem{30}
+A. Meng, P. Ahrendt, J. Larsen, and L. K. Hansen, “Temporal feature
+integration for music genre classification,” IEEE Trans. Audio, Speech,
+Lang. Process., vol. 15, no. 5, pp. 1654–1663, Jul. 2007.
+
+
+
+\bibitem{31}
+“Musicovery:Interactive Webradio.” [Online]. Available: http://www.
+musicovery.com/
+
+
+\bibitem{32}
+D. C. Montgomery, G. C. Runger, and N. F. Hubele, Engineering Statistics. New York: Wiley, 1998.
+
+
+\bibitem{33}
+R. J. Cohen and M. Swerdlik, Psychological Testing and Measurement: An Introduction to Tests and Measurement. Mountain View,
+CA: Mayfield, 1996.
+
+
+\bibitem{34}
+W. Chai and B. Vercoe, “Using user models in music information retrieval systems,” in Proc. Int. Symp. Music Inf. Retrieval, 2000 [Online]. Available: http://www.media.mit.edu/~chaiwei/papers/usermodeling.pdf
+
+
+
+\bibitem{35}
+M. Lesaffre, M. Leman, and J.-P. Martens, “A user-oriented approach
+to music information retrieval,” in Content-Based Retrieval. Wadern,
+Germany: Dagstuhl Seminar Proceedings, 2006.
 
 
 
 
-\bibitem{IEEEhowto:kopka}
-H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+%    \bibitem{IEEEhowto:kopka}
+%   H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+%     0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
 
 \end{thebibliography}
 
@@ -1355,22 +1518,64 @@ H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
 %\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
 % or if you just want to reserve a space for a photo:
 
-\begin{IEEEbiography}{Michael Shell}
-Biography text here.
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{fig8}}]{\bf Yi-Hsuan Yang}
+received the B.S. degree in electrical engineering from National Taiwan University
+(NTU), Taiwan, R.O.C., in 2006. He is currently
+working toward the Ph.D. degree in the Graduate
+Institute of Communication Engineering, NTU.
+His research interests include multimedia information retrieval and analysis, human-centered
+computing, and affective computing.
 \end{IEEEbiography}
 
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{fig9}}]{\bf Yu-Ching Lin}
+received the B.S. degree in electrical engineering from National Taiwan University
+(NTU), Taiwan, R.O.C., in 2007. He is currently
+working toward the M.S. degree in the Graduate
+Institute of Communication Engineering, NTU.
+His research interests include music signal processing, machine learning, and affective computing.
+\end{IEEEbiography}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{fig10}}]{\bf Ya-Fan Su}
+ received the B.S. degree in electrical engineering from National Taiwan University (NTU),
+Taiwan, R.O.C., in 2007. He is currently working
+toward the M.S. degree in the Graduate Institute of
+Communication Engineering, NTU.
+His research interests include video content
+analysis, human-centered computing, and affective
+computing.
+\end{IEEEbiography}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{fig11}}]{\bf Homer H. Chen}
+(S’83–M’86–SM’01–F’03) received the Ph.D. degree in electrical and computer
+engineering from the University of Illinois at
+Urbana-Champaign.
+Since August 2003, he has been with the College
+of Electrical Engineering and Computer Science,
+National Taiwan University, where he is the Irving T.
+Ho Chair Professor. Prior to that, he had held various
+R&D management and engineering positions in
+U.S. companies over a period of 17 years, including
+AT&T Bell Labs, Rockwell Science Center, iVast,
+and Digital Island. He was a U.S. delegate for ISO and ITU standards committees and contributed to the development of many new interactive multimedia
+technologies that are now part of the MPEG-4 and JPEG-2000 standards. His
+professional interests lie in the broad area of multimedia signal processing and
+communications.
+
+Dr. Chen is an Associate Editor of the IEEE TRANSACTIONS ON CIRCUITS AND
+SYSTEMS FOR VIDEO TECHNOLOGY. He served as Associate Editor for IEEE
+TRANSACTIONS ON IMAGE PROCESSING from 1992 to 1994, Guest Editor for
+IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS FOR VIDEO TECHNOLOGY in
+1999, and Editorial Board Member for Pattern Recognition from 1989 to 1999.
+\end{IEEEbiography}
+
+
+
 % if you will not have a photo at all:
-\begin{IEEEbiographynophoto}{John Doe}
-Biography text here.
-\end{IEEEbiographynophoto}
+
 
 % insert where needed to balance the two columns on the last page with
 % biographies
 %\newpage
-
-\begin{IEEEbiographynophoto}{Jane Doe}
-Biography text here.
-\end{IEEEbiographynophoto}
 
 % You can push biographies down or up by placing
 % a \vfill before or after them. The appropriate
@@ -1388,5 +1593,4 @@ Biography text here.
 
 % that's all folks
 \end{document}
-
 
